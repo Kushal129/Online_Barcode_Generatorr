@@ -1,0 +1,127 @@
+body {
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+form {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+textarea {
+    resize: vertical;
+    width: 100%;
+}
+
+.barcode-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.barcode-box {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.barcode-box img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+h1, h6 {
+    margin: 0;
+    text-align: center;
+    color: #212529;
+}
+
+.signature {
+    align-self: flex-end;
+    margin-top: auto;
+    color: #6c757d;
+}
+
+.btn {
+    width: 100%;
+    margin-bottom: 10px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #000000;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background-color: #000000;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #2d8d32;
+    color: #fff;
+}
+
+.btn-danger:hover{
+    background-color: #983036;
+    color: #fff;
+}
+
+.alert {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+hr {
+    width: 100%;
+    border-top: 1px solid #ddd;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-link {
+    cursor: pointer;
+    color: #000000;
+}
+
+.barcode-data {
+    line-height: 65px;
+    color: #495057;
+    font-weight: bold;
+}
