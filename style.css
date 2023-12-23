@@ -1,8 +1,39 @@
-body {
-    padding: 20px;
+/* Developed by Kushal Pipaliya */
+/* Github :- https://github.com/Kushal129  */
+
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+*{
+    margin: 0px;
+    padding: 0px;
 }
 
+::selection {
+    background-color: #000000; 
+    color: #ffffff;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+body::-webkit-scrollbar {
+    width: 5px; 
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: black;
+    
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #d3b5db; 
+}
 .container {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,10 +47,42 @@ form {
     margin-bottom: 20px;
 }
 
-textarea {
+.form-label {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+textarea.form-control {
+    background-color: #ffffff0f;
     resize: vertical;
     width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow-y: auto; 
 }
+
+textarea.form-control::-webkit-scrollbar {
+    width:8px;
+    background-color: #d3b5db;
+}
+
+textarea.form-control::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 1rem;
+}
+
+textarea.form-control::-webkit-scrollbar-track {
+    background-color: #ffffff0f;
+}
+
+textarea.form-control:focus {
+    outline: none; 
+    background-color: #b178eea1;
+}
+
 
 .barcode-container {
     width: 100%;
@@ -47,7 +110,8 @@ textarea {
     margin: 10px 0;
 }
 
-h1, h6 {
+h1,
+h6 {
     margin: 0;
     text-align: center;
     color: #212529;
@@ -58,42 +122,71 @@ h1, h6 {
     margin-top: auto;
     color: #6c757d;
 }
+.button-container {
+    display: flex;
+    gap: 10px; 
+}
 
-.btn {
+.btn{
     width: 100%;
-    margin-bottom: 10px;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 12px 40px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
-.btn-primary {
-    background-color: #000000;
-    color: #fff;
-    border-radius: 5px;
-}
+.btn:focus {
+    text-decoration: none;
+    color: whitesmoke;
 
-.btn-danger {
-    background-color: #000000;
-    color: #fff;
-    border-radius: 5px;
-}
-
-.btn-primary:hover {
-    background-color: #2d8d32;
-    color: #fff;
-}
-
-.btn-danger:hover{
-    background-color: #983036;
-    color: #fff;
-}
+  }
+  
+  .btn:hover {
+    text-decoration: none;
+    color: whitesmoke;
+  }
+  
+  .btn:active {
+    box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+    outline: 0;
+  }
+  
+  .btn:not([disabled]):active {
+    box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+    transform: translate(2px, 2px);
+  }
+  
+  @media (min-width: 768px) {
+    .btn {
+      padding: 12px 50px;
+    }
+  }
 
 .alert {
     width: 100%;
     max-width: 600px;
     margin-top: 20px;
+    overflow-x: hidden;
 }
 
 .alert-danger {
@@ -124,4 +217,179 @@ hr {
     line-height: 65px;
     color: #495057;
     font-weight: bold;
+}
+
+
+
+.context {
+    width: 100%;
+    position: absolute;
+    top:50vh;
+    
+}
+
+.context h1{
+    text-align: center;
+    color: #fff;
+    font-size: 50px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    background-color: black;
+    color: white;
+    border: 1px solid black; 
+    border-radius: 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    transition: border-color 0.3s ease;
+}
+
+.page-link:hover {
+    color: whitesmoke;
+    background-color: #333; 
+    border-color: white; 
+}
+
+.page-link:focus {
+    color: whitesmoke;
+    outline: none; 
+    border-color: white; 
+}
+
+.page-item.active .page-link {
+    background-color: #333; 
+    border-color: white;
+}
+
+.area{
+    background: #8458B3;  
+    background: -webkit-linear-gradient(to left, #fdaff3, #a28089);  
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+}
+
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    
+}
+
+.circles li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
 }
