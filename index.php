@@ -4,6 +4,8 @@ include_once 'vendor/autoload.php';
 use Picqer\Barcode\BarcodeGeneratorHTML;
 
 session_start();
+$totalItems = 0;
+$error = '';
 
 if (isset($_POST['clear_data'])) {
     unset($_SESSION['barcode_data']);
@@ -15,19 +17,19 @@ if (isset($_POST['clear_data'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Generator</title>
-    <link rel="icon" type="image/x-icon" href="urllogo.jpg">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Barcode Generator</title>
+        <link rel="icon" type="image/x-icon" href="urllogo.jpg">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="area">
-
         <div class="container">
             <h1 class="mt-5 mb-4">Barcode Generator</h1>
             <hr>
@@ -44,51 +46,64 @@ if (isset($_POST['clear_data'])) {
 
             <?php
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $_SESSION['barcode_data'] = $_POST['barcode_data'];
+            try {
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    if (!isset($_POST['barcode_data'])) {
+                        throw new Exception('Barcode data is missing.');
+                    }
 
-                if (empty(trim($_SESSION['barcode_data']))) {
+                    $_SESSION['barcode_data'] = $_POST['barcode_data'];
+
+                    if (empty(trim($_SESSION['barcode_data']))) {
+                        throw new Exception('No barcode data found. Please enter barcode data and try again.');
+                    }
+                }
+
+                if (isset($_SESSION['barcode_data'])) {
+                    $barcodeData = $_SESSION['barcode_data'];
+                    $barcodeArray = explode("\n", $barcodeData);
+                    if (count($barcodeArray) > 500) {
+                        throw new Exception('You can only generate a maximum of 500 barcodes at a time.');
+                    }
+
+                    $generator = new BarcodeGeneratorHTML();
+                    $totalItems = count($barcodeArray);
+                    $itemsPerPage = 30;
+                    $totalPages = ceil($totalItems / $itemsPerPage); 
+                    $currentPage = isset($_GET['page']) ? max(1, min($totalPages, (int)$_GET['page'])) : 1;
+                    $offset = ($currentPage - 1) * $itemsPerPage;
             ?>
-                    <div class="alert alert-danger mt-3" role="alert">
-                        No barcode data found. Please enter barcode data and try again.
+                    <div class="barcode-container">
+                        <?php
+                        for ($i = $offset; $i < min($offset + $itemsPerPage, $totalItems); $i++) {
+                            $data = $barcodeArray[$i];
+                            echo '<div class="barcode-box">';
+                            echo '<p><strong>Barcode Data:</strong> ' . htmlspecialchars($data) . '</p>';
+                            echo '<p><strong>Number:</strong> ' . ($i + 1) . '</p>';
+                            $barcodeHtml = $generator->getBarcode($data, $generator::TYPE_CODE_128);
+                            $barcodeHtml = str_replace('height:30px;', 'height:80px;', $barcodeHtml);
+                            echo $barcodeHtml;
+                            echo '</div>';
+                        }
+                        ?>
                     </div>
                 <?php
-                    exit;
                 }
+            } catch (Exception $e) {
+                $error = $e->getMessage();
             }
 
-            if (isset($_SESSION['barcode_data'])) {
-                $barcodeData = $_SESSION['barcode_data'];
-                $barcodeArray = explode("\n", $barcodeData);
-                if (count($barcodeArray) > 300) {
+            $itemsPerPage = 30;
+            $totalPages = ceil($totalItems / $itemsPerPage); 
+
+            if (!empty($error)) {
                 ?>
-                    <div class="alert alert-danger mt-3" role="alert">
-                        You can only generate a maximum of 300 barcodes at a time.
-                    </div>
-                <?php
-                    exit;
-                }
-                $generator = new BarcodeGeneratorHTML();
-                $itemsPerPage = 30;
-                $totalItems = count($barcodeArray);
-                $totalPages = ceil($totalItems / $itemsPerPage);
-                $currentPage = isset($_GET['page']) ? max(1, min($totalPages, (int)$_GET['page'])) : 1;
-                $offset = ($currentPage - 1) * $itemsPerPage;
-                ?>
-                <div class="barcode-container">
-                    <?php
-                    for ($i = $offset; $i < min($offset + $itemsPerPage, $totalItems); $i++) {
-                        $data = $barcodeArray[$i];
-                        echo '<div class="barcode-box">';
-                        echo '<p><strong>Barcode Data:</strong> ' . htmlspecialchars($data) . '</p>';
-                        echo '<p><strong>Number:</strong> ' . ($i + 1) . '</p>';
-                        $barcodeHtml = $generator->getBarcode($data, $generator::TYPE_CODE_128);
-                        $barcodeHtml = str_replace('height:30px;', 'height:80px;', $barcodeHtml);
-                        echo $barcodeHtml;
-                        echo '</div>';
-                    }
-                    ?>
+                <div class="alert alert-danger mt-3" role="alert">
+                    <?php echo htmlspecialchars($error); ?>
                 </div>
+            <?php
+            } else {
+            ?>
                 <nav class="pagination">
                     <ul class="pagination">
                         <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
@@ -100,13 +115,13 @@ if (isset($_POST['clear_data'])) {
                 </nav>
             <?php
             }
+
             ?>
+
             <div class="signature">
-                <h6>- DJ Joker & Mr.KH</h6>
+                <h6>-Mr.KH</h6>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-
         <ul class="circles">
             <li></li>
             <li></li>
@@ -121,9 +136,10 @@ if (isset($_POST['clear_data'])) {
         </ul>
     </div>
 </body>
-
 </html>
 <!-- 
+
 Developed by Kushal Pipaliya 
 Github :- https://github.com/Kushal129   
+
 -->
